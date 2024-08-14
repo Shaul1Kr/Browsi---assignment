@@ -23,3 +23,19 @@ export const createPublisher = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error creating publisher", error });
   }
 };
+
+export const updatePublisher = async (req: Request, res: Response) => {
+  console.info("Updating publisher");
+  try {
+    const publisherId = req.params.id;
+    const name = req.body.name;
+    const publisher = await Publisher.findById(publisherId);
+    if (!publisher) {
+      return res.status(404).json({ message: "Publisher not found" });
+    }
+    publisher.updateOne({ _id: publisherId }, { name });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating publisher", error });
+  }
+};
