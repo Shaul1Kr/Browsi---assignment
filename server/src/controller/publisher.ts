@@ -39,3 +39,19 @@ export const updatePublisher = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error updating publisher", error });
   }
 };
+
+export const deletePublisher = async (req: Request, res: Response) => {
+  console.info("Delete publisher");
+  try {
+    const publisherId = req.params.id;
+    const publisher = await Publisher.findById(publisherId);
+    if (!publisher) {
+      return res.status(404).json({ message: "Publisher not found" });
+    }
+    await Domain.deleteMany({ _id: { $in: publisher.domains } });
+    await Publisher.findByIdAndDelete(publisherId);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting publisher", error });
+  }
+};
