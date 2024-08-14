@@ -1,0 +1,8 @@
+<div class="publishers-container">
+    <div>
+      <button (click)="addPublisher()">Add publisher</button>
+    </div>
+    <div>
+      <app-publisher-card *ngFor="let publisher of data" [publisher]="publisher"></app-publisher-card>
+    </div>
+</div>
