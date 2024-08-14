@@ -8,6 +8,7 @@ const domainSchema = new Schema({
 
 const publisherSchema = new Schema({
   name: { type: String, required: true },
+  domains: [{ type: Schema.Types.ObjectId, ref: "Domain" }],
 });
 
 const Domain = mongoose.model("Domain", domainSchema);
