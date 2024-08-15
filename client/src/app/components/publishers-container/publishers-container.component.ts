@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PublisherCardComponent } from './publisher-card/publisher-card.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { catchError } from 'rxjs';
 
 export type Publisher = {
   _id: string;
@@ -19,12 +21,14 @@ export type Domain = {
 @Component({
   selector: 'app-publishers-container',
   standalone: true,
-  imports: [PublisherCardComponent, CommonModule],
+  imports: [PublisherCardComponent, CommonModule, FormsModule],
   templateUrl: './publishers-container.component.html',
   styleUrls: ['./publishers-container.component.css'],
 })
 export class PublishersContainerComponent implements OnInit {
   data: Array<Publisher> = [];
+  newPublisherName: string = '';
+  isCreate: boolean = false;
 
   constructor(private http: HttpClient) {}
 
@@ -37,8 +41,6 @@ export class PublishersContainerComponent implements OnInit {
       .get<Array<Publisher>>('http://localhost:3000/api/publishers')
       .subscribe(
         (response: Array<Publisher>) => {
-          console.log(response);
-
           this.data = response;
         },
         (error) => {
@@ -47,7 +49,18 @@ export class PublishersContainerComponent implements OnInit {
       );
   }
 
+  toggleAddPublisher() {
+    this.isCreate = !this.isCreate;
+  }
+
   addPublisher() {
-    // Implement add publisher logic here
+    console.log(this.newPublisherName);
+    this.http
+      .post('http://localhost:3000/api/publishers', {
+        name: this.newPublisherName,
+      })
+      .subscribe(() => this.fetchPublishers());
+    this.newPublisherName = '';
+    this.isCreate = false;
   }
 }
