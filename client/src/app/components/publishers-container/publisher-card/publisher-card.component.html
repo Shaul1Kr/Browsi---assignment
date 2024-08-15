@@ -9,9 +9,9 @@
       <div>Domain:</div>
       <input type="text" [(ngModel)]="newDomain.domain" />
       <div>Mobile Ads:</div>
-      <input type="text" [(ngModel)]="newDomain.mobileAds" />
+      <input type="number" [(ngModel)]="newDomain.mobileAds" />
       <div>Desktop Ads:</div>
-      <input type="text" [(ngModel)]="newDomain.desktopAds" />
+      <input type="number" [(ngModel)]="newDomain.desktopAds" />
       <button (click)="addDomain()">Create</button>
     </div>
     <app-domain-card
