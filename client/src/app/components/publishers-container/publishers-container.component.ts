@@ -1,68 +1,53 @@
-import {Component, OnInit} from '@angular/core';
-import {PublisherCardComponent} from "./publisher-card/publisher-card.component";
-import {CommonModule} from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { PublisherCardComponent } from './publisher-card/publisher-card.component';
+import { CommonModule } from '@angular/common';
 
 export type Publisher = {
-  publisher: string;
-  domains: Array<Domain>
+  _id: string;
+  name: string;
+  domains: Array<Domain>;
 };
 
 export type Domain = {
-  domain: string,
-  desktopAds: number,
-  mobileAds: number
+  _id: string;
+  domain: string;
+  desktopAds: number;
+  mobileAds: number;
 };
 
 @Component({
   selector: 'app-publishers-container',
   standalone: true,
-  imports: [
-    PublisherCardComponent,
-    CommonModule
-  ],
+  imports: [PublisherCardComponent, CommonModule],
   templateUrl: './publishers-container.component.html',
-  styleUrl: './publishers-container.component.css'
+  styleUrls: ['./publishers-container.component.css'],
 })
 export class PublishersContainerComponent implements OnInit {
-  constructor() {
-  }
+  data: Array<Publisher> = [];
 
-  data: Array<Publisher> = [
-    {
-      publisher: 'publisher 1',
-      domains: [
-        {
-          domain: "bla.com",
-          desktopAds: 5,
-          mobileAds: 3,
-        },
-        {
-          domain: "bla1.com",
-          desktopAds: 2,
-          mobileAds: 30,
-        }
-      ]
-    },
-    {
-      publisher: 'publisher 2',
-      domains: [
-        {
-          domain: "gar.com",
-          desktopAds: 0,
-          mobileAds: 4,
-        },
-        {
-          domain: "gar.com",
-          desktopAds: 5,
-          mobileAds: 3,
-        }
-      ]
-    }
-  ]
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
+    this.fetchPublishers();
+  }
+
+  fetchPublishers() {
+    this.http
+      .get<Array<Publisher>>('http://localhost:3000/api/publishers')
+      .subscribe(
+        (response: Array<Publisher>) => {
+          console.log(response);
+
+          this.data = response;
+        },
+        (error) => {
+          console.error('Error fetching publishers:', error);
+        }
+      );
   }
 
   addPublisher() {
+    // Implement add publisher logic here
   }
 }

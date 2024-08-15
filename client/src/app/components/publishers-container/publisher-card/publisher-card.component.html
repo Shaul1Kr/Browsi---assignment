@@ -1,7 +1,10 @@
 <div>
-  <h1>{{publisher.publisher}}  ({{publisher.domains.length}})</h1>
-  <hr>
+  <h1>{{ publisher.name }} ({{ publisher.domains.length }})</h1>
+  <hr />
   <div class="publisher-card-container">
-    <app-domain-card *ngFor="let domain of publisher.domains" [domain]="domain"></app-domain-card>
+    <app-domain-card
+      *ngFor="let domain of publisher.domains"
+      [domain]="domain"
+    ></app-domain-card>
   </div>
 </div>
