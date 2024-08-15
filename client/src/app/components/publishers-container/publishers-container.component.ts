@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { PublisherCardComponent } from './publisher-card/publisher-card.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { catchError } from 'rxjs';
 
 export type Publisher = {
   _id: string;
