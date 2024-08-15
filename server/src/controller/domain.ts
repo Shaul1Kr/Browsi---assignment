@@ -5,7 +5,7 @@ export const getDomains = async (req: Request, res: Response) => {
   console.info("Retrive all publisher and domains");
   try {
     const domains = await Domain.find().populate("publisher");
-    res.status(200).json(domains);
+    return res.status(200).json(domains);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving domain", error });
@@ -41,7 +41,7 @@ export const createDomain = async (req: Request, res: Response) => {
     });
     publisher.domains.push(newDomain._id);
     await publisher.save();
-    res.status(201).json(newDomain);
+    return res.status(200).json({ message: "Created new domain" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving domain", error });
@@ -61,6 +61,22 @@ export const updateDomain = async (req: Request, res: Response) => {
       { _id: domainId },
       { name: domainName, desktopAds, mobileAds }
     );
+    return res.status(200).json({ message: "Updated domain" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error retrieving domain", error });
+  }
+};
+
+export const deleteDomain = async (req: Request, res: Response) => {
+  console.info("Delete domain");
+  try {
+    const domainId = req.params.id;
+    const domain = await Domain.findById(domainId);
+    if (!domain) {
+      return res.status(404).json({ message: "Domain not found" });
+    }
+    await Domain.findByIdAndDelete(domainId);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving domain", error });
