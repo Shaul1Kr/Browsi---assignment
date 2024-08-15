@@ -53,13 +53,23 @@ export class PublishersContainerComponent implements OnInit {
   }
 
   addPublisher() {
-    console.log(this.newPublisherName);
     this.http
       .post('http://localhost:3000/api/publishers', {
         name: this.newPublisherName,
       })
-      .subscribe(() => this.fetchPublishers());
-    this.newPublisherName = '';
-    this.isCreate = false;
+      .subscribe(
+        () => {
+          this.newPublisherName = '';
+          this.isCreate = false;
+          this.fetchPublishers();
+        },
+        (error) => {
+          console.error('Error adding publisher:', error);
+        }
+      );
+  }
+
+  handleDomainAdded() {
+    this.fetchPublishers();
   }
 }

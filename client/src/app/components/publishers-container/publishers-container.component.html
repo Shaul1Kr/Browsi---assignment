@@ -11,6 +11,7 @@
     <app-publisher-card
       *ngFor="let publisher of data"
       [publisher]="publisher"
+      (domainAdded)="handleDomainAdded()"
     ></app-publisher-card>
   </div>
 </div>

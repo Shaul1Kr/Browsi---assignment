@@ -2,6 +2,18 @@
   <h1>{{ publisher.name }} ({{ publisher.domains.length }})</h1>
   <hr />
   <div class="publisher-card-container">
+    <div>
+      <button (click)="toggleAddDomain()">Add Domain</button>
+    </div>
+    <div class="form" *ngIf="isCreate">
+      <div>Domain:</div>
+      <input type="text" [(ngModel)]="newDomain.domain" />
+      <div>Mobile Ads:</div>
+      <input type="text" [(ngModel)]="newDomain.mobileAds" />
+      <div>Desktop Ads:</div>
+      <input type="text" [(ngModel)]="newDomain.desktopAds" />
+      <button (click)="addDomain()">Create</button>
+    </div>
     <app-domain-card
       *ngFor="let domain of publisher.domains"
       [domain]="domain"

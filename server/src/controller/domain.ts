@@ -18,17 +18,22 @@ export const createDomain = async (req: Request, res: Response) => {
     const { domain, desktopAds, mobileAds, publisherId } = req.body;
 
     if (!domain || !publisherId) {
-      console.error("Domain name and publisher ID are required");
+      console.error("Domain and publisher ID are required");
       return res
         .status(400)
-        .json({ message: "Domain name and publisher ID are required" });
+        .json({ message: "Domain and publisher ID are required" });
     }
 
     const existingDomain = await Domain.findOne({ domain });
     if (existingDomain) {
+      const domain = await Domain.findById(existingDomain._id).populate(
+        "publisher"
+      );
+      const publisher = await Publisher.findById(existingDomain.publisher);
       console.error("This domain is already configured");
-      return res.status(400).json({
+      return res.status(405).json({
         message: `This domain is already configured`,
+        publisher: publisher?.name,
       });
     }
     const publisher = await Publisher.findById(publisherId);
