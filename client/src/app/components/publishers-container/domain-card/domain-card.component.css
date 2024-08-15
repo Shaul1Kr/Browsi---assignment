@@ -10,3 +10,8 @@
   margin: 10px 0px;
   padding: 30px;
 }
+
+.domain-buttons-container {
+  display: flex;
+  gap: 2rem;
+}

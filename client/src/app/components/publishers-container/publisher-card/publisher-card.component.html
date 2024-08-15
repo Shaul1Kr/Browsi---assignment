@@ -23,6 +23,7 @@
     <app-domain-card
       *ngFor="let domain of publisher.domains"
       [domain]="domain"
+      (realoacComp)="handlereloadPublishers()"
     ></app-domain-card>
   </div>
 </div>

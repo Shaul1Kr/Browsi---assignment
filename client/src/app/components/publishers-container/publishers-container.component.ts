@@ -69,7 +69,7 @@ export class PublishersContainerComponent implements OnInit {
       );
   }
 
-  handleDomainAdded() {
+  handlereloadPublishers() {
     this.fetchPublishers();
   }
 }

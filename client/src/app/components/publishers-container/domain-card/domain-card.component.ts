@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Domain } from '../publishers-container.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DomainCardComponent {
   @Input() domain!: Domain;
+  @Output() realoacComp = new EventEmitter<void>();
   isEdit: boolean = false;
   _domain!: Domain;
 
@@ -45,5 +46,18 @@ export class DomainCardComponent {
       );
 
     this.toggleEdit();
+  }
+  deleteDomain() {
+    console.log(this.domain.domain);
+    this.http
+      .delete(`http://localhost:3000/api/domains/${this.domain._id}`)
+      .subscribe(
+        () => {
+          this.realoacComp.emit();
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
 }

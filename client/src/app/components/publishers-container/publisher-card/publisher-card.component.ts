@@ -97,4 +97,7 @@ export class PublisherCardComponent {
         }
       );
   }
+  handlereloadPublishers() {
+    this.realoacComp.emit();
+  }
 }

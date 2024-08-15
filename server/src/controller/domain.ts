@@ -97,6 +97,7 @@ export const deleteDomain = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Domain not found" });
     }
     await Domain.findByIdAndDelete(domainId);
+    return res.status(200).json({ message: "Deleted domain" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving domain", error });
