@@ -5,11 +5,12 @@ export const getPublishers = async (req: Request, res: Response) => {
   console.info("Retrive all publisher and domains");
   try {
     const publishers = await Publisher.find().populate("domains").exec();
-    res.status(200).json(publishers);
+    return res.status(200).json(publishers);
   } catch (error) {
     console.error(error);
-
-    res.status(500).json({ message: "Error retrieving publishers", error });
+    return res
+      .status(500)
+      .json({ message: "Error retrieving publishers", error });
   }
 };
 
@@ -18,9 +19,10 @@ export const createPublisher = async (req: Request, res: Response) => {
   try {
     const { publishername } = req.body;
     await Publisher.create({ name: publishername });
+    return res.status(200).json({ message: "Created new publisher" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error creating publisher", error });
+    return res.status(500).json({ message: "Error creating publisher", error });
   }
 };
 
@@ -34,9 +36,10 @@ export const updatePublisher = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Publisher not found" });
     }
     publisher.updateOne({ _id: publisherId }, { name });
+    return res.status(200).json({ message: "Update new publisher" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error updating publisher", error });
+    return res.status(500).json({ message: "Error updating publisher", error });
   }
 };
 
@@ -50,8 +53,9 @@ export const deletePublisher = async (req: Request, res: Response) => {
     }
     await Domain.deleteMany({ _id: { $in: publisher.domains } });
     await Publisher.findByIdAndDelete(publisherId);
+    return res.status(200).json({ message: "Publisher has been deleted" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error deleting publisher", error });
+    return res.status(500).json({ message: "Error deleting publisher", error });
   }
 };
