@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/", getPublishers);
 router.post("/", createPublisher);
-router.put("/", updatePublisher);
-router.delete("/", deletePublisher);
+router.put("/:id", updatePublisher);
+router.delete("/:id", deletePublisher);
 
 export default router;
