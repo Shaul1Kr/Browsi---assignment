@@ -26,7 +26,9 @@ export const createDomain = async (req: Request, res: Response) => {
 
     const existingDomain = await Domain.findOne({ domain });
     if (existingDomain) {
-      const publisher = await Publisher.findById(existingDomain.publisher);
+      const publisher = await Publisher.findOne({
+        domains: existingDomain._id,
+      }).exec();
       console.error("This domain is already configured");
       return res.status(405).json({
         message: `This domain is already configured`,
@@ -57,13 +59,13 @@ export const updateDomain = async (req: Request, res: Response) => {
   console.info("Updating domain");
   try {
     const domainId = req.params.id;
-    const { domainName, desktopAds, mobileAds } = req.body;
-    const domain = await Domain.findById(domainId);
-    if (!domain) {
+    const { domain, desktopAds, mobileAds } = req.body.domain;
+    const domainData = await Domain.findById(domainId);
+    if (!domainData) {
       console.error("Domain not found");
       return res.status(404).json({ message: "Domain not found" });
     }
-    const existingDomain = await Domain.findOne({ domain: domainName });
+    const existingDomain = await Domain.findOne({ domain });
     if (existingDomain) {
       const publisher = await Publisher.findOne({
         domains: existingDomain._id,
@@ -71,12 +73,12 @@ export const updateDomain = async (req: Request, res: Response) => {
       console.error("This domain is already configured");
       return res.status(405).json({
         message: `This domain is already configured`,
-        publisher: publisher ? publisher.name : "Unknown",
+        publisher: publisher?.name,
       });
     }
-    await domain.updateOne(
+    await domainData.updateOne(
       { _id: domainId },
-      { domain: domainName, desktopAds, mobileAds }
+      { domain, desktopAds, mobileAds }
     );
 
     return res.status(200).json({ message: "Updated domain" });
