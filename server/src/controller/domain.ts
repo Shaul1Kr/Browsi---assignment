@@ -60,6 +60,8 @@ export const updateDomain = async (req: Request, res: Response) => {
   try {
     const domainId = req.params.id;
     const { domain, desktopAds, mobileAds } = req.body.domain;
+    console.log({ domainId, domain, desktopAds, mobileAds });
+
     const domainData = await Domain.findById(domainId);
     if (!domainData) {
       console.error("Domain not found");
@@ -76,10 +78,7 @@ export const updateDomain = async (req: Request, res: Response) => {
         publisher: publisher?.name,
       });
     }
-    await domainData.updateOne(
-      { _id: domainId },
-      { domain, desktopAds, mobileAds }
-    );
+    await domainData.updateOne({ domain, desktopAds, mobileAds });
 
     return res.status(200).json({ message: "Updated domain" });
   } catch (error) {
