@@ -47,3 +47,22 @@ export const createDomain = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error retrieving domain", error });
   }
 };
+
+export const updateDomain = async (req: Request, res: Response) => {
+  console.info("Updating domain");
+  try {
+    const domainId = req.params.id;
+    const { domainName, desktopAds, mobileAds } = req.body;
+    const domain = await Domain.findById(domainId);
+    if (!domain) {
+      return res.status(404).json({ message: "Domain not found" });
+    }
+    domain.updateOne(
+      { _id: domainId },
+      { name: domainName, desktopAds, mobileAds }
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving domain", error });
+  }
+};
