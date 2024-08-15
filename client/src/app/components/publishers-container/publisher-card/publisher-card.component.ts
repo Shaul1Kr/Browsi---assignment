@@ -100,4 +100,12 @@ export class PublisherCardComponent {
   handlereloadPublishers() {
     this.realoacComp.emit();
   }
+
+  deletePublisher() {
+    this.http
+      .delete(`http://localhost:3000/api/publishers/${this.publisher._id}`)
+      .subscribe(() => {
+        this.realoacComp.emit();
+      });
+  }
 }
