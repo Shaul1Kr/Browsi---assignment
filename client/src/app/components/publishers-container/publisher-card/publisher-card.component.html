@@ -2,7 +2,8 @@
   <h1>{{ publisher.name }} ({{ publisher.domains.length }})</h1>
   <hr />
   <div class="publisher-card-container">
-    <div>
+    <div class="publisher-card-buttons">
+      <button (click)="toggleupdatePublisher()">Edit publisher</button>
       <button (click)="toggleAddDomain()">Add Domain</button>
     </div>
     <div class="form" *ngIf="isCreate">
@@ -13,6 +14,11 @@
       <div>Desktop Ads:</div>
       <input type="number" [(ngModel)]="newDomain.desktopAds" />
       <button (click)="addDomain()">Create</button>
+    </div>
+    <div class="form" *ngIf="isUpdate">
+      <div>Publisher name:</div>
+      <input type="text" [(ngModel)]="newPublisherName" />
+      <button (click)="updatePublisher()">Edit</button>
     </div>
     <app-domain-card
       *ngFor="let domain of publisher.domains"

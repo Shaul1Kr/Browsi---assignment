@@ -14,19 +14,22 @@ import { FormsModule } from '@angular/forms';
 })
 export class PublisherCardComponent {
   @Input() publisher!: Publisher;
-  @Output() domainAdded = new EventEmitter<void>();
+  @Output() realoacComp = new EventEmitter<void>();
   isCreate: boolean = false;
+  isUpdate: boolean = false;
   newDomain: Domain = {
     _id: '',
     domain: '',
     desktopAds: 0,
     mobileAds: 0,
   };
+  newPublisherName: string = '';
 
   constructor(private http: HttpClient) {}
 
   toggleAddDomain() {
     this.isCreate = !this.isCreate;
+    this.isUpdate = false;
   }
 
   addDomain() {
@@ -39,8 +42,8 @@ export class PublisherCardComponent {
       this.http
         .post<Domain>('http://localhost:3000/api/domains', combinedData)
         .subscribe(
-          (response: Domain) => {
-            this.domainAdded.emit(); // Emit event to parent component
+          () => {
+            this.realoacComp.emit();
             this.newDomain = {
               _id: '',
               domain: '',
@@ -72,5 +75,26 @@ export class PublisherCardComponent {
       !isNaN(domain.mobileAds) &&
       domain.mobileAds >= 0
     );
+  }
+  toggleupdatePublisher() {
+    this.isUpdate = !this.isUpdate;
+    this.isCreate = false;
+  }
+
+  updatePublisher() {
+    this.http
+      .put(`http://localhost:3000/api/publishers/${this.publisher._id}`, {
+        name: this.newPublisherName,
+      })
+      .subscribe(
+        () => {
+          this.realoacComp.emit();
+          this.newPublisherName = '';
+          this.isUpdate = false;
+        },
+        (error) => {
+          console.error('Error adding publisher:', error);
+        }
+      );
   }
 }

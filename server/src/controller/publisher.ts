@@ -36,7 +36,7 @@ export const updatePublisher = async (req: Request, res: Response) => {
       console.error("Publisher not found");
       return res.status(404).json({ message: "Publisher not found" });
     }
-    publisher.updateOne({ _id: publisherId }, { name });
+    await publisher.updateOne({ name });
     return res.status(200).json({ message: "Update new publisher" });
   } catch (error) {
     console.error(error);

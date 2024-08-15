@@ -28,7 +28,6 @@ export class DomainCardComponent {
 
   editDomain() {
     this.domain = JSON.parse(JSON.stringify(this._domain));
-    console.log(this.domain);
     this.http
       .put(`http://localhost:3000/api/domains/${this._domain._id}`, {
         domain: this._domain,
