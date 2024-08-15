@@ -33,6 +33,7 @@ export const updatePublisher = async (req: Request, res: Response) => {
     const name = req.body.name;
     const publisher = await Publisher.findById(publisherId);
     if (!publisher) {
+      console.error("Publisher not found");
       return res.status(404).json({ message: "Publisher not found" });
     }
     publisher.updateOne({ _id: publisherId }, { name });
@@ -49,6 +50,7 @@ export const deletePublisher = async (req: Request, res: Response) => {
     const publisherId = req.params.id;
     const publisher = await Publisher.findById(publisherId);
     if (!publisher) {
+      console.error("Publisher not found");
       return res.status(404).json({ message: "Publisher not found" });
     }
     await Domain.deleteMany({ _id: { $in: publisher.domains } });

@@ -15,26 +15,29 @@ export const getDomains = async (req: Request, res: Response) => {
 export const createDomain = async (req: Request, res: Response) => {
   console.info("Creating new domain");
   try {
-    const { domainName, desktopAds, mobileAds, publisherId } = req.body;
+    const { domain, desktopAds, mobileAds, publisherId } = req.body;
 
-    if (!domainName || !publisherId) {
+    if (!domain || !publisherId) {
+      console.error("Domain name and publisher ID are required");
       return res
         .status(400)
         .json({ message: "Domain name and publisher ID are required" });
     }
 
-    const existingDomain = await Domain.findOne({ domain: domainName });
+    const existingDomain = await Domain.findOne({ domain });
     if (existingDomain) {
+      console.error("This domain is already configured");
       return res.status(400).json({
         message: `This domain is already configured`,
       });
     }
     const publisher = await Publisher.findById(publisherId);
     if (!publisher) {
+      console.error("Publisher not found");
       return res.status(404).json({ message: "Publisher not found" });
     }
     const newDomain = await Domain.create({
-      domain: domainName,
+      domain,
       desktopAds,
       mobileAds,
       publisher: publisherId,
@@ -55,6 +58,7 @@ export const updateDomain = async (req: Request, res: Response) => {
     const { domainName, desktopAds, mobileAds } = req.body;
     const domain = await Domain.findById(domainId);
     if (!domain) {
+      console.error("Domain not found");
       return res.status(404).json({ message: "Domain not found" });
     }
     domain.updateOne(
@@ -74,6 +78,7 @@ export const deleteDomain = async (req: Request, res: Response) => {
     const domainId = req.params.id;
     const domain = await Domain.findById(domainId);
     if (!domain) {
+      console.error("Domain not found");
       return res.status(404).json({ message: "Domain not found" });
     }
     await Domain.findByIdAndDelete(domainId);
