@@ -17,8 +17,8 @@ export const getPublishers = async (req: Request, res: Response) => {
 export const createPublisher = async (req: Request, res: Response) => {
   console.info("Create new publisher");
   try {
-    const { publishername } = req.body;
-    await Publisher.create({ name: publishername });
+    const { name } = req.body;
+    await Publisher.create({ name });
     return res.status(200).json({ message: "Created new publisher" });
   } catch (error) {
     console.error(error);
