@@ -60,7 +60,6 @@ export const updateDomain = async (req: Request, res: Response) => {
   try {
     const domainId = req.params.id;
     const { domain, desktopAds, mobileAds } = req.body.domain;
-    console.log({ domainId, domain, desktopAds, mobileAds });
 
     const domainData = await Domain.findById(domainId);
     if (!domainData) {

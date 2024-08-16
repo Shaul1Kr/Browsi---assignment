@@ -48,7 +48,6 @@ export class DomainCardComponent {
     this.toggleEdit();
   }
   deleteDomain() {
-    console.log(this.domain.domain);
     this.http
       .delete(`http://localhost:3000/api/domains/${this.domain._id}`)
       .subscribe(
