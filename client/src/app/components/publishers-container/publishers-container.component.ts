@@ -68,8 +68,4 @@ export class PublishersContainerComponent implements OnInit {
         }
       );
   }
-
-  handlereloadPublishers() {
-    this.fetchPublishers();
-  }
 }
