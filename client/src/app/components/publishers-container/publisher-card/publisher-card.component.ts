@@ -43,12 +43,6 @@ export class PublisherCardComponent {
         .subscribe(
           () => {
             this.realoacComp.emit();
-            this.newDomain = {
-              _id: '',
-              domain: '',
-              desktopAds: 0,
-              mobileAds: 0,
-            };
             this.isCreate = false;
           },
           (error) => {
