@@ -23,7 +23,6 @@ export class PublisherCardComponent {
     desktopAds: 0,
     mobileAds: 0,
   };
-  newPublisherName: string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -84,12 +83,11 @@ export class PublisherCardComponent {
   updatePublisher() {
     this.http
       .put(`http://localhost:3000/api/publishers/${this.publisher._id}`, {
-        name: this.newPublisherName,
+        name: this.publisher.name,
       })
       .subscribe(
         () => {
           this.realoacComp.emit();
-          this.newPublisherName = '';
           this.isUpdate = false;
         },
         (error) => {

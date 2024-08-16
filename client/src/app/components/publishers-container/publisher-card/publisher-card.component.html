@@ -18,7 +18,7 @@
     </div>
     <div class="form" *ngIf="isUpdate">
       <div>Publisher name:</div>
-      <input type="text" [(ngModel)]="newPublisherName" />
+      <input type="text" [(ngModel)]="publisher.name" />
       <button (click)="updatePublisher()">Edit</button>
     </div>
     <app-domain-card
